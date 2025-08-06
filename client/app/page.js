@@ -30,7 +30,8 @@ export default function HomePage() {
     try {
       setLoading(true)
       const response = await HotelService.getAllHotels()
-      const hotelsArray = response.hotels || []
+     const hotelsArray = (response.hotels || []).slice(0, 10)
+
       setHotels(hotelsArray)
       setLoading(false)
     } catch (error) {
@@ -40,12 +41,12 @@ export default function HomePage() {
     }
   }
 const applyFilters = () => {
-  // If no filters are set, just show all hotels
   const noFiltersSet = !filters.search && !filters.state && !filters.city &&
-    filters.priceRange[0] === 0 && filters.priceRange[1] === 10000000
+    filters.priceRange[0] === 0 && filters.priceRange[1] === 1000
 
   if (noFiltersSet) {
-    setFilteredHotels(hotels)
+    // ✅ Only return the first 10 hotels
+    setFilteredHotels(hotels.slice(0, 10))
     return
   }
 
