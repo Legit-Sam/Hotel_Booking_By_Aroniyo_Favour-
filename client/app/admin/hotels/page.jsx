@@ -204,7 +204,7 @@ const AdminHotels = () => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => router.push(`/admin/hotels/${hotel._id}`)}>
+                        <DropdownMenuItem onClick={() => router.push(`/hotel/${hotel._id}`)}>
                           <Eye className="mr-2 h-4 w-4" />
                           View
                         </DropdownMenuItem>

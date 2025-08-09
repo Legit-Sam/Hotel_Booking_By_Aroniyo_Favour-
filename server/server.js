@@ -7,6 +7,7 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import locationRoutes from './routes/locationRoutes.js';
 import hotelRoutes from './routes/hotelRoutes.js';
+import adminRoute from './routes/adminRoute.js';
 
 dotenv.config();
 connectDB();
@@ -27,6 +28,6 @@ app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/locations', locationRoutes);
 app.use('/api/hotels', hotelRoutes);
-
+app.use('/api/users', adminRoute);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

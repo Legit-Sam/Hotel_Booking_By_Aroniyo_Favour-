@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // 1. Create Axios instance
 const api = axios.create({
-baseURL: process.env.NEXT_PUBLIC_API_URL,// Replace with your backend URL
+baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api',// Replace with your backend URL
   withCredentials: true, // For sending cookies (JWT)
 });
 
