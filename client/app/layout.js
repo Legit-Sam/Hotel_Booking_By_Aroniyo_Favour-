@@ -1,7 +1,6 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
 import Providers from './providers'; // ✅ this is the fix
-// import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
 import { Toaster } from 'sonner';
 
