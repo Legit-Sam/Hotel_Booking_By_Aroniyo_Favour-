@@ -1,31 +1,62 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Menu, X, Hotel } from 'lucide-react'
+import { Menu, X, Hotel, User, Settings, LogOut, Home, Shield, Building2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '@/context/AuthContext'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const { user, logout } = useAuth()
 
   const isAdmin = user?.role === 'admin'
 
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   const navItems = [
-    { href: '/', label: 'Home' },
-    !user && { href: '/login', label: 'Login' },
-    isAdmin && { href: '/admin', label: 'Dashboard' },
-    isAdmin && { href: '/admin/hotels', label: 'Manage Hotels' },
+    { href: '/', label: 'Home', icon: Home },
+    !user && { href: '/login', label: 'Login', icon: User },
+    isAdmin && { href: '/admin', label: 'Dashboard', icon: Shield },
+    isAdmin && { href: '/admin/hotels', label: 'Manage Hotels', icon: Building2 },
   ].filter(Boolean)
 
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+    <motion.nav
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled 
+          ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-white/20' 
+          : 'bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-100'
+      }`}
+    >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <Hotel className="w-8 h-8 text-primary-600" />
-            <span className="text-xl font-bold text-gray-800">HotelHub</span>
+          {/* Enhanced Logo */}
+          <Link href="/" className="flex items-center space-x-3 group">
+            <motion.div
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              className="relative"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl blur-sm opacity-30 group-hover:opacity-50 transition-opacity" />
+              <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-xl">
+                <Hotel className="w-6 h-6 text-white" />
+              </div>
+            </motion.div>
+            <div className="flex flex-col">
+              <span className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                HotelHub
+              </span>
+              <span className="text-xs text-gray-500 -mt-1">Premium Stays</span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -94,6 +125,6 @@ export default function Navbar() {
           )}
         </AnimatePresence>
       </div>
-    </nav>
+    </motion.nav>
   )
 }
